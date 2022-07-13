@@ -1,11 +1,13 @@
 from django.urls import path
-from hh_api.views import list_companies, get_company_by_id, list_vacancies_by_company, list_all_vacancies, get_vacancy_by_id, vacancies_top10
+from rest_framework_jwt.views import obtain_jwt_token
+from hh_api.class_views import CompanyListAPIView, CompanyDetailAPIView, VacancyDetail, VacancyList, CompanyVacanciesAPIView, TopTen 
 
-urlpatterns = [
-    path('companies', list_companies),
-    path('companies/<int:id>/', get_company_by_id),
-    path('companies/<int:id>/vacancies/', list_vacancies_by_company),
-    path('vacancies/', list_all_vacancies),
-    path('vacancies/<int:id>/', get_vacancy_by_id),
-    path('vacancies/top_ten/', vacancies_top10),
+urlpatterns=[
+    path('login/', obtain_jwt_token),
+    path('companies/', CompanyListAPIView.as_view()),
+    path('companies/<int:pk>/', CompanyDetailAPIView.as_view()),
+    path('companies/<int:pk>/vacancies/', CompanyVacanciesAPIView.as_view()),
+    path('vacancies/', VacancyList),
+    path('vacancies/<int:pk>/', VacancyDetail),
+    path('vacancies/top_ten/', TopTen.as_view()),
 ]
